@@ -1,7 +1,7 @@
 /**
  * @morning/connect tests
  *
- * from https://github.com/senchalabs/connect/blob/master/test/server.js
+ * 参考自 https://github.com/senchalabs/connect/blob/master/test/server.js
  *
  * @author Zongmin Lei <leizongmin@gmail.com>
  */
