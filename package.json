@@ -4,7 +4,7 @@
   "description": "是用TypeScript编写的connect中间件模块，支持async function",
   "main": "dist/index.js",
   "scripts": {
-    "test": "mocha src/test/**/*.ts",
+    "test": "mocha --compilers ts:ts-node/register src/test/**/*.test.ts",
     "compile": "rm -rf dist && tsc"
   },
   "repository": {
@@ -23,12 +23,18 @@
   "homepage": "https://github.com/leizongmin/connect.ts#readme",
   "dependencies": {
     "@types/debug": "0.0.29",
+    "@types/finalhandler": "0.0.31",
     "@types/node": "^8.0.7",
-    "debug": "^2.6.8"
+    "debug": "^2.6.8",
+    "finalhandler": "^1.0.3"
   },
   "devDependencies": {
+    "@types/chai": "^4.0.1",
+    "@types/mocha": "^2.2.41",
+    "@types/supertest": "^2.0.1",
     "chai": "^4.0.2",
     "mocha": "^3.4.2",
+    "supertest": "^3.0.0",
     "ts-node": "^3.2.0",
     "tslint": "^5.5.0",
     "typescript": "^2.4.1"

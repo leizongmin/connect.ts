@@ -9,6 +9,7 @@ import * as events from 'events';
 import * as url from 'url';
 import * as createDebug from 'debug';
 import { IDebugger } from 'debug';
+import * as finalhandler from 'finalhandler';
 
 export type NextFunction = (err?: Error) => void;
 export type RequestHandler = (req: http.ServerRequest, res: http.ServerResponse) => void;
@@ -20,6 +21,10 @@ export interface Request extends http.ServerRequest {
 }
 export interface Response extends http.ServerResponse {
 
+}
+
+export interface RequestError extends Error {
+  status?: number;
 }
 
 export enum MiddlewareType {
@@ -46,6 +51,8 @@ export class Application extends events.EventEmitter {
 
   constructor() {
     super();
+    this.server = http.createServer(this.getMiddleware());
+    this.server.on('error', err => this.emit('error', err));
   }
 
   public use(handler: MiddlewareNormalHandler): void;
@@ -64,7 +71,7 @@ export class Application extends events.EventEmitter {
       type = MiddlewareType.Error;
     }
     this.debug('register middleware: %s %s', MiddlewareType[type], path);
-    this.stack.push({ type, path, handler});
+    this.stack.push({ type, path, handler });
   }
 
   public getMiddleware(): RequestHandler {
@@ -72,19 +79,10 @@ export class Application extends events.EventEmitter {
   }
 
   public handleRequest(req: Request, res: Response, next?: NextFunction): void {
-    next = next || ((err?: Error) => {
-      this.debug('handle request end: %s', err);
-      if (err) {
-        res.writeHead(500, {
-          'Content-Type': 'text/plain',
-        });
-        res.end(getErrorDetail(err));
-      } else {
-        res.writeHead(404, {
-          'Content-Type': 'text/plain',
-        });
-        res.end(`404 cannot handle request ${ req.pathname }`);
-      }
+    next = next || finalhandler(req, res, {
+      onerror: (err: Error) => {
+        this.debug('handle request: finnal handler: err=%s', err && err.stack || err);
+      },
     });
     this.handleRequestAsync(req, res)
       .then(next)
@@ -96,9 +94,11 @@ export class Application extends events.EventEmitter {
   public listen(unixSocket: string, callback?: () => void): void;
   public listen(): void {
     this.debug('listen');
-    this.server = http.createServer(this.getMiddleware());
-    this.server.on('error', err => this.emit('error', err));
     this.server.listen.apply(this.server, arguments);
+  }
+
+  public address() {
+    return this.server.address();
   }
 
   private async handleRequestAsync(req: Request, res: Response): Promise<null | Error> {
