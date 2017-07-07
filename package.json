@@ -10,6 +10,8 @@
   "scripts": {
     "test": "mocha --compilers ts:ts-node/register src/test/**/*.test.ts",
     "test-dist": "mocha dist/test/**/*.test.js",
+    "test-cov": "npm run compile && istanbul cover _mocha dist/test/**/*.test.js && npm run test-cov-remap",
+    "test-cov-remap": "remap-istanbul -i coverage/coverage.json  -t html -o coverage/html-report",
     "compile": "rm -rf dist && tsc",
     "prepublish": "npm run compile && npm run test-dist"
   },
@@ -35,11 +37,11 @@
     "finalhandler": "^1.0.3"
   },
   "devDependencies": {
-    "@types/chai": "^4.0.1",
     "@types/mocha": "^2.2.41",
     "@types/supertest": "^2.0.1",
-    "chai": "^4.0.2",
+    "istanbul": "^0.4.5",
     "mocha": "^3.4.2",
+    "remap-istanbul": "^0.9.5",
     "supertest": "^3.0.0",
     "ts-node": "^3.2.0",
     "tslint": "^5.5.0",
