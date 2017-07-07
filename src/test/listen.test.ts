@@ -9,16 +9,16 @@
 import { Application } from '../lib';
 import * as request from 'supertest';
 
-describe('app.listen()', function () {
+describe('app.listen()', function() {
 
-  it('should wrap in an http.Server', function (done) {
+  it('should wrap in an http.Server', function(done) {
     const app = new Application();
 
-    app.use(function (req, res) {
+    app.use(function(req, res) {
       res.end();
     });
 
-    app.listen(0, function () {
+    app.listen(0, function() {
       request(app)
         .get('/')
         .expect(200, done);

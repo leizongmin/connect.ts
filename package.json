@@ -13,6 +13,7 @@
     "test-cov": "npm run compile && istanbul cover _mocha dist/test/**/*.test.js && npm run test-cov-remap",
     "test-cov-remap": "remap-istanbul -i coverage/coverage.json  -t html -o coverage/html-report",
     "compile": "rm -rf dist && tsc",
+    "lint": "tslint --project . --type-check --fix src/**/*.ts",
     "prepublish": "npm run compile && npm run test-dist"
   },
   "repository": {
@@ -45,6 +46,7 @@
     "supertest": "^3.0.0",
     "ts-node": "^3.2.0",
     "tslint": "^5.5.0",
+    "tslint-config-lei": "^1.0.1",
     "typescript": "^2.4.1"
   }
 }
