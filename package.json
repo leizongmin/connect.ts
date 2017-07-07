@@ -1,0 +1,36 @@
+{
+  "name": "@morning/connect",
+  "version": "1.0.0",
+  "description": "是用TypeScript编写的connect中间件模块，支持async function",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "mocha src/test/**/*.ts",
+    "compile": "rm -rf dist && tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leizongmin/connect.ts.git"
+  },
+  "keywords": [
+    "connect",
+    "middleware"
+  ],
+  "author": "Zongmin Lei <leizongmin@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leizongmin/connect.ts/issues"
+  },
+  "homepage": "https://github.com/leizongmin/connect.ts#readme",
+  "dependencies": {
+    "@types/debug": "0.0.29",
+    "@types/node": "^8.0.7",
+    "debug": "^2.6.8"
+  },
+  "devDependencies": {
+    "chai": "^4.0.2",
+    "mocha": "^3.4.2",
+    "ts-node": "^3.2.0",
+    "tslint": "^5.5.0",
+    "typescript": "^2.4.1"
+  }
+}
