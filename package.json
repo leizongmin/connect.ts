@@ -2,10 +2,16 @@
   "name": "@morning/connect",
   "version": "1.0.0",
   "description": "是用TypeScript编写的connect中间件模块，支持async function",
-  "main": "dist/index.js",
+  "main": "dist/lib/index.js",
+  "typings": "dist/lib/index.d.ts",
+  "files": [
+    "dist/lib"
+  ],
   "scripts": {
     "test": "mocha --compilers ts:ts-node/register src/test/**/*.test.ts",
-    "compile": "rm -rf dist && tsc"
+    "test-dist": "mocha dist/test/**/*.test.js",
+    "compile": "rm -rf dist && tsc",
+    "prepublish": "npm run compile && npm run test-dist"
   },
   "repository": {
     "type": "git",
