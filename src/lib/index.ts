@@ -324,5 +324,5 @@ function isInPath(handlePath: string, currentPath: string): boolean {
  * @param p Promise 对象
  */
 function isPromise(p: any): boolean {
-  return typeof p.then === 'function' && typeof p.catch === 'function';
+  return p && typeof p.then === 'function' && typeof p.catch === 'function';
 }
