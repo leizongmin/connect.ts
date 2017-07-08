@@ -149,7 +149,7 @@ export class Application extends events.EventEmitter {
     if (isMiddlewareErrorHandler(handler)) {
       type = MiddlewareType.Error;
     }
-    this.debug('register middleware: %s %s', MiddlewareType[type], path);
+    this.debug('register middleware: %s %s %s', MiddlewareType[type], path, handler.name || 'anonymous');
     this.stack.push({ type, path, handler });
   }
 
@@ -254,7 +254,7 @@ export class Application extends events.EventEmitter {
         }
       });
       if (isPromise(ret)) {
-        (ret as Promise<any>).then(resolve).catch(reject);
+        (ret as Promise<any>).catch(reject);
       }
     });
   }
@@ -276,7 +276,7 @@ export class Application extends events.EventEmitter {
         }
       });
       if (isPromise(ret)) {
-        (ret as Promise<any>).then(resolve).catch(reject);
+        (ret as Promise<any>).catch(reject);
       }
     });
   }
