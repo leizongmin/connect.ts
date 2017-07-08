@@ -212,18 +212,17 @@ export class Application extends events.EventEmitter {
         this.debug('middleware stack: handlePAth=%s, requestPath=%s, lastError=%s', item.path, req.pathname, lastError);
         try {
           if (lastError) {
+            // 如果出错了，则只执行异常处理中间件
             if (item.type !== MiddlewareType.Error) {
               continue;
             }
             this.debug('call middleware error handler');
             lastError = await this.callMiddlewareErrorHandler(item.handler, lastError, req, res);
           } else {
+            // 否则，只执行普通的中间件
             if (item.type === MiddlewareType.Normal) {
               this.debug('call middleware normal handler');
               lastError = await this.callMiddlewareNormalHandler(item.handler, req, res);
-            } else {
-              this.debug('call middleware error handler');
-              lastError = await this.callMiddlewareErrorHandler(item.handler, lastError, req, res);
             }
           }
         } catch (err) {
